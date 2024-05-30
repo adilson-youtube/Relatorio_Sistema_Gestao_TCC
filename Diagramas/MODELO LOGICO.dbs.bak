@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="PostgreSQL" id="PostgreSQL-1a10" database="PostgreSQL" >
+	<schema name="public" >
+		<comment><![CDATA[standard public schema]]></comment>
+		<table name="Anexos" row_count="0" spec="" >
+			<column name="Id" type="integer" length="32" jt="4" mandatory="y" >
+				<identity><![CDATA[GENERATED  BY DEFAULT AS IDENTITY]]></identity>
+			</column>
+			<column name="NomeFicheiro" type="text" jt="12" />
+			<column name="IdFicheiro" type="text" jt="12" />
+			<column name="IdTFC" type="integer" length="32" jt="4" />
+			<index name="PK_Anexos" unique="PRIMARY_KEY" >
+				<column name="Id" />
+			</index>
+			<index name="IX_Anexos_IdTFC" unique="NORMAL" spec="USING  btree" >
+				<column name="IdTFC" />
+			</index>
+			<fk name="FK_Anexos_TFCs_IdTFC" to_schema="public" to_table="TFCs" options="" >
+				<fk_column name="IdTFC" pk="Id" />
+			</fk>
+		</table>
+		<table name="Areas" row_count="0" spec="" >
+			<column name="Id" type="integer" length="32" jt="4" mandatory="y" >
+				<identity><![CDATA[GENERATED  BY DEFAULT AS IDENTITY]]></identity>
+			</column>
+			<column name="Descricao" type="text" jt="12" />
+			<index name="PK_Areas" unique="PRIMARY_KEY" >
+				<column name="Id" />
+			</index>
+		</table>
+		<table name="Bancas" row_count="0" spec="" >
+			<column name="Id" type="integer" length="32" jt="4" mandatory="y" >
+				<identity><![CDATA[GENERATED  BY DEFAULT AS IDENTITY]]></identity>
+			</column>
+			<column name="IdTFC" type="integer" length="32" jt="4" />
+			<column name="DataApresentacao" type="timestamptz" jt="93" />
+			<index name="PK_Bancas" unique="PRIMARY_KEY" >
+				<column name="Id" />
+			</index>
+			<index name="IX_Bancas_IdTFC" unique="NORMAL" spec="USING  btree" >
+				<column name="IdTFC" />
+			</index>
+			<fk name="FK_Bancas_TFCs_IdTFC" to_schema="public" to_table="TFCs" options="" >
+				<fk_column name="IdTFC" pk="Id" />
+			</fk>
+		</table>
+		<table name="BancasProfessores" row_count="0" spec="" >
+			<column name="Id" type="integer" length="32" jt="4" mandatory="y" >
+				<identity><![CDATA[GENERATED  BY DEFAULT AS IDENTITY]]></identity>
+			</column>
+			<column name="IdBanca" type="integer" length="32" jt="4" />
+			<column name="IdProfessor" type="integer" length="32" jt="4" />
+			<index name="PK_BancasProfessores" unique="PRIMARY_KEY" >
+				<column name="Id" />
+			</index>
+			<index name="IX_BancasProfessores_IdBanca" unique="NORMAL" spec="USING  btree" >
+				<column name="IdBanca" />
+			</index>
+			<index name="IX_BancasProfessores_IdProfessor" unique="NORMAL" spec="USING  btree" >
+				<column name="IdProfessor" />
+			</index>
+			<fk name="FK_BancasProfessores_Bancas_IdBanca" to_schema="public" to_table="Bancas" options="" >
+				<fk_column name="IdBanca" pk="Id" />
+			</fk>
+			<fk name="FK_BancasProfessores_Professores_IdProfessor" to_schema="public" to_table="Professores" options="" >
+				<fk_column name="IdProfessor" pk="Id" />
+			</fk>
+		</table>
+		<table name="Coordenadores" row_count="0" spec="" >
+			<column name="Id" type="integer" length="32" jt="4" mandatory="y" />
+			<column name="Nome" type="text" jt="12" />
+			<column name="Bilhete" type="text" jt="12" />
+			<column name="Telefone" type="text" jt="12" />
+			<index name="PK_Coordenadores" unique="PRIMARY_KEY" >
+				<column name="Id" />
+			</index>
+			<fk name="FK_Coordenadores_Usuarios_Id" to_schema="public" to_table="Usuarios" delete_action="cascade" options="" >
+				<fk_column name="Id" pk="Id" />
+			</fk>
+		</table>
+		<table name="Correcoes" row_count="0" spec="" >
+			<column name="Id" type="integer" length="32" jt="4" mandatory="y" >
+				<identity><![CDATA[GENERATED  BY DEFAULT AS IDENTITY]]></identity>
+			</column>
+			<column name="Comentario" type="text" jt="12" />
+			<column name="IdBanca" type="integer" length="32" jt="4" />
+			<index name="PK_Correcoes" unique="PRIMARY_KEY" >
+				<column name="Id" />
+			</index>
+			<index name="IX_Correcoes_IdBanca" unique="NORMAL" spec="USING  btree" >
+				<column name="IdBanca" />
+			</index>
+			<fk name="FK_Correcoes_Bancas_IdBanca" to_schema="public" to_table="Bancas" options="" >
+				<fk_column name="IdBanca" pk="Id" />
+			</fk>
+		</table>
+		<table name="Encontros" row_count="0" spec="" >
+			<column name="Id" type="integer" length="32" jt="4" mandatory="y" >
+				<identity><![CDATA[GENERATED  BY DEFAULT AS IDENTITY]]></identity>
+			</column>
+			<column name="Data" type="timestamptz" jt="93" />
+			<column name="Local" type="text" jt="12" />
+			<column name="Motivo" type="text" jt="12" />
+			<column name="ConfirmacaoEstudante" type="boolean" jt="16" />
+			<column name="ConfirmacaoProfessor" type="boolean" jt="16" />
+			<column name="IdTFC" type="integer" length="32" jt="4" />
+			<index name="PK_Encontros" unique="PRIMARY_KEY" >
+				<column name="Id" />
+			</index>
+			<index name="IX_Encontros_IdTFC" unique="NORMAL" spec="USING  btree" >
+				<column name="IdTFC" />
+			</index>
+			<fk name="FK_Encontros_TFCs_IdTFC" to_schema="public" to_table="TFCs" options="" >
+				<fk_column name="IdTFC" pk="Id" />
+			</fk>
+		</table>
+		<table name="Estudantes" row_count="0" spec="" >
+			<column name="Id" type="integer" length="32" jt="4" mandatory="y" />
+			<column name="Nome" type="text" jt="12" />
+			<column name="Bilhete" type="text" jt="12" />
+			<column name="Telefone" type="text" jt="12" />
+			<index name="PK_Estudantes" unique="PRIMARY_KEY" >
+				<column name="Id" />
+			</index>
+			<fk name="FK_Estudantes_Usuarios_Id" to_schema="public" to_table="Usuarios" delete_action="cascade" options="" >
+				<fk_column name="Id" pk="Id" />
+			</fk>
+		</table>
+		<table name="Professores" row_count="0" spec="" >
+			<column name="Id" type="integer" length="32" jt="4" mandatory="y" />
+			<column name="Nome" type="text" jt="12" />
+			<column name="Bilhete" type="text" jt="12" />
+			<column name="Telefone" type="text" jt="12" />
+			<index name="PK_Professores" unique="PRIMARY_KEY" >
+				<column name="Id" />
+			</index>
+			<fk name="FK_Professores_Usuarios_Id" to_schema="public" to_table="Usuarios" delete_action="cascade" options="" >
+				<fk_column name="Id" pk="Id" />
+			</fk>
+		</table>
+		<table name="TFCs" row_count="0" spec="" >
+			<column name="Id" type="integer" length="32" jt="4" mandatory="y" >
+				<identity><![CDATA[GENERATED  BY DEFAULT AS IDENTITY]]></identity>
+			</column>
+			<column name="Titulo" type="text" jt="12" />
+			<column name="Descricao" type="text" jt="12" />
+			<column name="Estado" type="integer" length="32" jt="4" />
+			<column name="RespostaProfessor" type="boolean" jt="16" />
+			<column name="DataInicio" type="date" length="0" jt="91" />
+			<column name="Nota" type="text" jt="12" />
+			<column name="IdArea" type="integer" length="32" jt="4" />
+			<column name="IdEstudante" type="integer" length="32" jt="4" />
+			<column name="IdProfessor" type="integer" length="32" jt="4" />
+			<column name="IdCoordenador" type="integer" length="32" jt="4" />
+			<index name="PK_TFCs" unique="PRIMARY_KEY" >
+				<column name="Id" />
+			</index>
+			<index name="IX_TFCs_IdArea" unique="NORMAL" spec="USING  btree" >
+				<column name="IdArea" />
+			</index>
+			<index name="IX_TFCs_IdCoordenador" unique="NORMAL" spec="USING  btree" >
+				<column name="IdCoordenador" />
+			</index>
+			<index name="IX_TFCs_IdEstudante" unique="NORMAL" spec="USING  btree" >
+				<column name="IdEstudante" />
+			</index>
+			<index name="IX_TFCs_IdProfessor" unique="NORMAL" spec="USING  btree" >
+				<column name="IdProfessor" />
+			</index>
+			<fk name="FK_TFCs_Areas_IdArea" to_schema="public" to_table="Areas" options="" >
+				<fk_column name="IdArea" pk="Id" />
+			</fk>
+			<fk name="FK_TFCs_Coordenadores_IdCoordenador" to_schema="public" to_table="Coordenadores" options="" >
+				<fk_column name="IdCoordenador" pk="Id" />
+			</fk>
+			<fk name="FK_TFCs_Estudantes_IdEstudante" to_schema="public" to_table="Estudantes" options="" >
+				<fk_column name="IdEstudante" pk="Id" />
+			</fk>
+			<fk name="FK_TFCs_Professores_IdProfessor" to_schema="public" to_table="Professores" options="" >
+				<fk_column name="IdProfessor" pk="Id" />
+			</fk>
+		</table>
+		<table name="Tarefas" row_count="0" spec="" >
+			<column name="Id" type="integer" length="32" jt="4" mandatory="y" >
+				<identity><![CDATA[GENERATED  BY DEFAULT AS IDENTITY]]></identity>
+			</column>
+			<column name="Titulo" type="text" jt="12" />
+			<column name="Descricao" type="text" jt="12" />
+			<column name="DataEntrega" type="timestamptz" jt="93" />
+			<column name="DataTerminada" type="timestamptz" jt="93" />
+			<column name="EstadoTarefa" type="integer" length="32" jt="4" />
+			<column name="IdFicheiroResposta" type="text" jt="12" />
+			<column name="IdFicheiroCorrecao" type="text" jt="12" />
+			<column name="ComentarioCorrecao" type="text" jt="12" />
+			<column name="IdTFC" type="integer" length="32" jt="4" />
+			<index name="PK_Tarefas" unique="PRIMARY_KEY" >
+				<column name="Id" />
+			</index>
+			<index name="IX_Tarefas_IdTFC" unique="NORMAL" spec="USING  btree" >
+				<column name="IdTFC" />
+			</index>
+			<fk name="FK_Tarefas_TFCs_IdTFC" to_schema="public" to_table="TFCs" options="" >
+				<fk_column name="IdTFC" pk="Id" />
+			</fk>
+		</table>
+		<table name="Usuarios" row_count="0" spec="" >
+			<column name="Id" type="integer" length="32" jt="4" mandatory="y" >
+				<identity><![CDATA[GENERATED  BY DEFAULT AS IDENTITY]]></identity>
+			</column>
+			<column name="NomeUsuario" type="text" jt="12" />
+			<column name="Matricula" type="text" jt="12" />
+			<column name="Email" type="text" jt="12" />
+			<column name="Senha" type="text" jt="12" />
+			<column name="Role" type="integer" length="32" jt="4" />
+			<column name="DataCriacao" type="timestamptz" jt="93" />
+			<column name="UltimoAcesso" type="timestamptz" jt="93" />
+			<index name="PK_Usuarios" unique="PRIMARY_KEY" >
+				<column name="Id" />
+			</index>
+		</table>
+	</schema>
+	<layout name="Main Layout" id="Layout-e" show_relation="columns" >
+		<entity schema="public" name="Anexos" color="BED3F4" x="928" y="80" />
+		<entity schema="public" name="Areas" color="BED3F4" x="928" y="448" />
+		<entity schema="public" name="Bancas" color="C7F4BE" x="48" y="144" />
+		<entity schema="public" name="BancasProfessores" color="C7F4BE" x="176" y="400" />
+		<entity schema="public" name="Coordenadores" color="C7F4BE" x="432" y="128" />
+		<entity schema="public" name="Correcoes" color="C7F4BE" x="48" y="352" />
+		<entity schema="public" name="Encontros" color="BED3F4" x="880" y="224" />
+		<entity schema="public" name="Estudantes" color="C7F4BE" x="432" y="288" />
+		<entity schema="public" name="Professores" color="C7F4BE" x="384" y="416" />
+		<entity schema="public" name="TFCs" color="BED3F4" x="688" y="96" />
+		<entity schema="public" name="Tarefas" color="BED3F4" x="656" y="368" />
+		<entity schema="public" name="Usuarios" color="C7F4BE" x="224" y="160" />
+		<group name="TFCs" color="ECF0F7" >
+			<entity schema="public" name="Encontros" />
+			<entity schema="public" name="Areas" />
+			<entity schema="public" name="Anexos" />
+			<entity schema="public" name="Tarefas" />
+			<entity schema="public" name="TFCs" />
+		</group>
+		<group name="Bancas" color="EEF7EC" >
+			<entity schema="public" name="Usuarios" />
+			<entity schema="public" name="Coordenadores" />
+			<entity schema="public" name="Bancas" />
+			<entity schema="public" name="BancasProfessores" />
+			<entity schema="public" name="Correcoes" />
+			<entity schema="public" name="Professores" />
+			<entity schema="public" name="Estudantes" />
+		</group>
+	</layout>
+	<layout name="~Layout with Sample Tools" id="Layout-24ce" show_column_type="y" show_relation="columns" >
+		<entity schema="public" name="Anexos" color="BED3F4" x="1856" y="48" />
+		<entity schema="public" name="Areas" color="BED3F4" x="1856" y="368" />
+		<entity schema="public" name="Bancas" color="C7F4BE" x="272" y="48" />
+		<entity schema="public" name="BancasProfessores" color="C7F4BE" x="272" y="240" />
+		<entity schema="public" name="Coordenadores" color="C7F4BE" x="1056" y="48" />
+		<entity schema="public" name="Correcoes" color="C7F4BE" x="48" y="240" />
+		<entity schema="public" name="Encontros" color="BED3F4" x="1552" y="368" />
+		<entity schema="public" name="Estudantes" color="C7F4BE" x="1056" y="320" />
+		<entity schema="public" name="Professores" color="C7F4BE" x="576" y="48" />
+		<entity schema="public" name="TFCs" color="BED3F4" x="1584" y="48" />
+		<entity schema="public" name="Tarefas" color="BED3F4" x="1296" y="64" />
+		<entity schema="public" name="Usuarios" color="C7F4BE" x="784" y="48" />
+		<script name="SQL Editor" id="Editor-100" language="SQL" >
+			<string><![CDATA[SELECT
+	"Id", "Titulo", "Descricao", "Estado", "RespostaProfessor", "DataInicio", "Nota", "IdArea", "IdEstudante", "IdProfessor", 
+	"IdCoordenador"
+FROM
+	"public"."TFCs" s;]]></string>
+		</script>
+		<browser id="Browse-1ad" name="Relational Data Explorer" confirm_updates="y" >
+			<browse_table schema="public" entity="TFCs" x="-2147483648" y="-2147483648" width="-2147483648" height="-2147483648" >
+				<browse_table schema="public" entity="Anexos" fk="FK_Anexos_TFCs_IdTFC" x="40" y="-2147483648" width="500" height="350" />
+			</browse_table>
+		</browser>
+		<query id="Query-1ebb" name="Query Builder" >
+			<query_table schema="public" name="TFCs" alias="t" x="48" y="48" >
+				<column name="Id" />
+				<column name="Titulo" />
+				<column name="Descricao" />
+				<column name="Estado" />
+				<column name="RespostaProfessor" />
+				<column name="DataInicio" />
+				<column name="Nota" />
+				<column name="IdArea" />
+				<column name="IdEstudante" />
+				<column name="IdProfessor" />
+				<column name="IdCoordenador" />
+				<query_table schema="public" name="Anexos" alias="a" x="288" y="48" fk="FK_Anexos_TFCs_IdTFC" type="Inner Join" >
+					<column name="Id" />
+					<column name="NomeFicheiro" />
+					<column name="IdFicheiro" />
+					<column name="IdTFC" />
+				</query_table>
+			</query_table>
+		</query>
+		<form name="Report" id="Report-13aa" template="Page" css="container-fluid" view="frame" >
+			<var name="samplePageNumber" type="4" value="0" mandatory="n" />
+			<var name="sampleRecordsPerPage" type="4" value="100" mandatory="n" />
+			<body name="Body" template="Grid" max_records="100" pos="0,0,0,0,f,f" layout="{{-2,-2,-2,-2,-1},{-2,-2,-2,-2}}" generate_path="y" scroll="n" html="n" header_rows="0" footer_rows="0" >
+				<cell type="label" name="Tfcs Data" template="H3" pos="0,0,1,0,l,c" />
+				<cell type="chart" name="Pie" template="Pie" pos="0,1,4,1,l,c" max_records="20" generate_path="y" >
+					<form_script type="DataSource" language="SQL" >
+						<var name="Id" type="4" />
+						<var name="Titulo" />
+						<var name="Descricao" />
+						<var name="Estado" type="4" />
+						<var name="RespostaProfessor" type="16" />
+						<var name="DataInicio" type="91" />
+						<var name="Nota" />
+						<var name="IdArea" type="4" />
+						<var name="IdEstudante" type="4" />
+						<var name="IdProfessor" type="4" />
+						<var name="IdCoordenador" type="4" />
+						<script ><![CDATA[SELECT * FROM "public"."TFCs"]]></script>
+					</form_script>
+					<param name="item" value="Titulo" />
+					<param name="width" value="100%" />
+					<param name="title" value="Sample Chart" />
+					<param name="value" value="Id" />
+					<param name="height" value="400px" />
+				</cell>
+				<tableview name="sample" template="Table" max_records="100" css="sortable table table-striped table-sm table-hover" pos="0,2,4,2,f,f" layout="{{-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2},{-2,-2}}" generate_path="y" scroll="n" html="n" header_rows="1" footer_rows="0" >
+					<form_script type="DataSource" language="SQL" >
+						<var name="Id" type="4" />
+						<var name="Titulo" />
+						<var name="Descricao" />
+						<var name="Estado" type="4" />
+						<var name="RespostaProfessor" type="16" />
+						<var name="DataInicio" type="91" />
+						<var name="Nota" />
+						<var name="IdArea" type="4" />
+						<var name="IdEstudante" type="4" />
+						<var name="IdProfessor" type="4" />
+						<var name="IdCoordenador" type="4" />
+						<script ><![CDATA[SELECT * FROM "public"."TFCs"]]></script>
+					</form_script>
+					<cell type="label" name="Id" pos="0,0,0,0,c,c" />
+					<cell type="label" name="Titulo" pos="1,0,1,0,c,c" />
+					<cell type="label" name="Descricao" pos="2,0,2,0,c,c" />
+					<cell type="label" name="Estado" pos="3,0,3,0,c,c" />
+					<cell type="label" name="RespostaProfessor" pos="4,0,4,0,c,c" />
+					<cell type="label" name="DataInicio" pos="5,0,5,0,c,c" />
+					<cell type="label" name="Nota" pos="6,0,6,0,c,c" />
+					<cell type="label" name="IdArea" pos="7,0,7,0,c,c" />
+					<cell type="label" name="IdEstudante" pos="8,0,8,0,c,c" />
+					<cell type="label" name="IdProfessor" pos="9,0,9,0,c,c" />
+					<cell type="label" name="IdCoordenador" pos="10,0,10,0,c,c" />
+					<cell type="label" name="${Id}" template="Plain" pos="0,1,0,1,l,c" />
+					<cell type="label" name="${Titulo}" template="Plain" pos="1,1,1,1,l,c" />
+					<cell type="label" name="${Descricao}" template="Plain" pos="2,1,2,1,l,c" />
+					<cell type="label" name="${Estado}" template="Plain" pos="3,1,3,1,l,c" />
+					<cell type="label" name="${RespostaProfessor}" template="Plain" pos="4,1,4,1,l,c" />
+					<cell type="label" name="${DataInicio}" template="Plain" pos="5,1,5,1,l,c" />
+					<cell type="label" name="${Nota}" template="Plain" pos="6,1,6,1,l,c" />
+					<cell type="label" name="${IdArea}" template="Plain" pos="7,1,7,1,l,c" />
+					<cell type="label" name="${IdEstudante}" template="Plain" pos="8,1,8,1,l,c" />
+					<cell type="label" name="${IdProfessor}" template="Plain" pos="9,1,9,1,l,c" />
+					<cell type="label" name="${IdCoordenador}" template="Plain" pos="10,1,10,1,l,c" />
+					<cell type="button" name="More" template="Plain" css="btn btn-sm btn-secondary" pos="11,1,11,1,c,c" ref_id="Report-13aa" />
+				</tableview>
+				<cell type="href" name="" disabled="${samplePageNumber&lt;1}" pos="0,3,0,3,l,c" glyph="bi-chevron_double_left" ref_id="Report-13aa" >
+					<var name="samplePageNumber" value="0" />
+				</cell>
+				<cell type="href" name="" disabled="${samplePageNumber&lt;1}" pos="1,3,1,3,l,c" glyph="bi-chevron_left" ref_id="Report-13aa" >
+					<var name="samplePageNumber" value="${Math.max(0,samplePageNumber-1)}" />
+				</cell>
+				<cell type="label" name="Page ${samplePageNumber+1}" pos="2,3,2,3,l,c" />
+				<cell type="href" name="" disabled="${!sampleHasNextPage}" pos="3,3,3,3,l,c" glyph="bi-chevron_right" ref_id="Report-13aa" >
+					<var name="samplePageNumber" value="${( samplePageNumber+1 )}" />
+				</cell>
+			</body>
+		</form>
+	</layout>
+</project>
